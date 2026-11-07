@@ -1,1 +1,40 @@
 
+{title:"Mr. & Mrs. Smith",year:"2005",type:"Movie",poster:"https://image.tmdb.org/t/p/w500/dqs5BmwSULtB7vQB7F0s2i0q9.jpg",embed:"",description:"Action Movie"},
+{title:"Anime",year:"2026",type:"Anime",poster:"https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",embed:"",description:"Anime"},
+{title:"Series",year:"2026",type:"Series",poster:"https://image.tmdb.org/t/p/w500/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg",embed:"",description:"Series"}
+];
+let filter="All";
+function setFilter(f,b){
+filter=f;
+document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));
+b.classList.add("active");
+render();
+}
+function render(){
+let q=document.getElementById("search").value.toLowerCase();
+let list=movies.filter(m=>(filter==="All"||m.type===filter)&&m.title.toLowerCase().includes(q));
+document.getElementById("empty").style.display=list.length?"none":"block";
+document.getElementById("grid").innerHTML=list.map(m=>`
+<div class="card" onclick="openMovie(${movies.indexOf(m)})">
+<img src="${m.poster}">
+<h3>${m.title}</h3>
+<div class="meta">${m.year} • ${m.type}</div>
+</div>`).join("");
+}
+function openMovie(i){
+let m=movies[i];
+document.getElementById("details").innerHTML=`
+<h2>${m.title}</h2>
+<p>${m.description}</p>
+<div class="player">
+${m.embed?`<iframe src="${m.embed}" allowfullscreen></iframe>`:"Player بە زووترین کات زیاد دەکرێت"}
+</div>`;
+document.getElementById("modal").classList.add("show");
+}
+function closeModal(){
+document.getElementById("modal").classList.remove("show");
+}
+render();
+</script>
+</body>
+</html>
